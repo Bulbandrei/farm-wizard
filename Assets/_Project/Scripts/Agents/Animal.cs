@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Animal : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public string word;
+    public SpriteRenderer spriteRenderer;
 
-    // Update is called once per frame
-    void Update()
+    public void Initiate(string p_word, Sprite p_sprite)
     {
-        
+        word = p_word;
+        spriteRenderer.sprite = p_sprite;
     }
 }
