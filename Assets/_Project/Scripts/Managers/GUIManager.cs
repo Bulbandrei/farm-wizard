@@ -3,6 +3,10 @@ using System;
 
 public class GUIManager : MonoBehaviour
 {
+    public event Action<Language> onLanguageSelected;
+    public event Action onStartGameRequested;
+    public event Action onIntroRequested;
+
     public Display[] displays;
 
     private Display _activeDisplay;
@@ -15,6 +19,11 @@ public class GUIManager : MonoBehaviour
         {
             displays[__i].Initiate();
         }
+    }
+
+    private void OnDisable()
+    {
+        Display.onActionRequested -= OnActionRequested;
     }
 
     private void OnDestroy()
@@ -77,11 +86,33 @@ public class GUIManager : MonoBehaviour
     {
         switch (p_id)
         {
+            case Displays.LANGUAGE:
+                switch (p_action)
+                {
+                    case 0:
+                        onLanguageSelected?.Invoke(Language.BR);
+                        break;
+                    case 1:
+                        onLanguageSelected?.Invoke(Language.EN);
+                        break;
+                }
+                break;
             case Displays.INTRO:
                 switch (p_action)
                 {
                     case 0:
+                        onStartGameRequested?.Invoke();
+                        break;
+                    case 1:
 
+                        break;
+                }
+                break;
+            case Displays.GAME_OVER:
+                switch (p_action)
+                {
+                    case 0:
+                        onIntroRequested?.Invoke();
                         break;
                     case 1:
 

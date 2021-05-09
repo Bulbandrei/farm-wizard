@@ -30,6 +30,7 @@ public class StageManager : MonoBehaviour
     public void Initiate()
     {
         WordTyper.OnTargetDestroyed += SetNewTarget;
+
         _currentStage = stages[0];
 
         _changeDayNightTime = Time.time + dayNightDuration;
@@ -37,10 +38,25 @@ public class StageManager : MonoBehaviour
         _animalSpawnTime = Time.time + _currentStage.AnimalSpawnDelay;
         target = animalsWorker.SpawnRandomUnit(GetPointOutOfScreen()); // First spawn to set initial target
         target.SetAsTarget();
+
+        _unitsOnScreen.Add(target);
+    }
+
+    private void OnDisable()
+    {
+        WordTyper.OnTargetDestroyed -= SetNewTarget;
+    }
+
+    private void OnDestroy()
+    {
+        WordTyper.OnTargetDestroyed -= SetNewTarget;
     }
 
     public void Update()
     {
+        if (GameCEO.State != GameState.PLAY)
+            return;
+
         if (Time.time >= _changeDayNightTime)
         {
             isDay = !isDay;
@@ -87,6 +103,18 @@ public class StageManager : MonoBehaviour
         v3Pos = Camera.main.ViewportToWorldPoint(v3Pos);
 
         return v3Pos;
+    }
+
+    public void ResetStage()
+    {
+        isDay = true;
+        
+        foreach(Unit __unit in _unitsOnScreen)
+        {
+            Destroy(__unit.gameObject);
+        }
+
+        _unitsOnScreen.Clear();
     }
 
     public void SetNewTarget()

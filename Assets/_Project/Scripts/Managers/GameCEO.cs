@@ -3,6 +3,7 @@
 public class GameCEO : MonoBehaviour
 {
     public static event System.Action onGameStateChanged;
+    public static event System.Action onLanguageChanged;
 
     public static GameState State { get; private set; }
     public static Language CurLanguage { get; private set; } = Language.EN;
@@ -17,20 +18,37 @@ public class GameCEO : MonoBehaviour
     {
         ChangeGameState(GameState.LOADING);
 
+        guiManager.onLanguageSelected += GuiManager_onLanguageSelected;
+        guiManager.onStartGameRequested += GuiManager_onStartGameRequested;
+        guiManager.onIntroRequested += GuiManager_onIntroRequested;
+
+        playerManager.onPlayerLifeReachsZero += PlayerManager_onPlayerLifeReachsZero;
+
         guiManager.Initiate();
+        playerManager.Initate();
         stageManager.Initiate();
     }
 
     private void Start()
     {
         guiManager.Initialize();
+
+        guiManager.ShowDisplay(Displays.LANGUAGE);
     }
 
     //-----------------CEO------------------
 
     private void StartGame()
     {
-        
+        guiManager.ShowDisplay(Displays.HUD);
+
+        ChangeGameState(GameState.PLAY);
+    }
+
+    private void ResetGame()
+    {
+        stageManager.ResetStage();
+        playerManager.ResetPlayer();
     }
 
     private void ChangeGameState(GameState p_state)
@@ -47,7 +65,38 @@ public class GameCEO : MonoBehaviour
 
     //-----------------GUI MANAGER------------------
 
+    private void GuiManager_onLanguageSelected(Language p_language)
+    {
+        CurLanguage = p_language;
+
+        onLanguageChanged?.Invoke();
+
+        guiManager.ShowDisplay(Displays.INTRO);
+    }
+
+    private void GuiManager_onStartGameRequested()
+    {
+        StartGame();
+    }
+
+    private void GuiManager_onIntroRequested()
+    {
+        ResetGame();
+
+        guiManager.ShowDisplay(Displays.INTRO);
+
+        ChangeGameState(GameState.INTRO);
+    }
+
     //-----------------STAGE MANAGER----------------
 
+    //-----------------PLAYER MANAGER----------------
+
+    private void PlayerManager_onPlayerLifeReachsZero()
+    {
+        ChangeGameState(GameState.GAME_OVER);
+
+        guiManager.ShowDisplay(Displays.GAME_OVER);
+    }
 
 }

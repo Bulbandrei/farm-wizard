@@ -1,6 +1,7 @@
 ﻿public enum GameState
 {
     LOADING,
+    LANGUAGE,
     INTRO,
     PLAY,
     PAUSE,
@@ -10,7 +11,7 @@
 
 public enum Displays
 {
-    LOADING,
+    LANGUAGE,
     INTRO,
     HUD,
     GAME_OVER,
