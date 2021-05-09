@@ -14,7 +14,10 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
-        transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector3.zero, speed * Time.deltaTime);
+        if((transform.localPosition * -1).sqrMagnitude >= 2f)
+        {
+            transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector3.zero, 10f * Time.deltaTime);
+        }
     }
 
     public void SetAsTarget()
