@@ -5,6 +5,7 @@ public class GameCEO : MonoBehaviour
     public static event System.Action onGameStateChanged;
 
     public static GameState State { get; private set; }
+    public static Language CurLanguage { get; private set; } = Language.EN;
 
     public GUIManager guiManager;
     public InputManager inputManager;
@@ -37,6 +38,11 @@ public class GameCEO : MonoBehaviour
         State = p_state;
 
         onGameStateChanged?.Invoke();
+    }
+
+    public void ChangeLanguage(Language newLang)
+    {
+        CurLanguage = newLang;
     }
 
     //-----------------GUI MANAGER------------------

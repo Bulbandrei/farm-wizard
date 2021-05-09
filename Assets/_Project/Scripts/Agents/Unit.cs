@@ -2,19 +2,23 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public string word;
     public SpriteRenderer spriteRenderer;
+    public float speed = 2.0f;
 
-    public void Initiate(string p_word, Sprite p_sprite)
+    [SerializeField] ParticleSystem targetParticles;
+
+    public void Initiate(Sprite p_sprite)
     {
-        word = p_word;
         spriteRenderer.sprite = p_sprite;
     }
 
     private void Update()
     {
-        transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector3.zero, 10f * Time.deltaTime);
+        transform.localPosition = Vector2.MoveTowards(transform.localPosition, Vector3.zero, speed * Time.deltaTime);
     }
 
-
+    public void SetAsTarget()
+    {
+        targetParticles.gameObject.SetActive(true);
+    }
 }

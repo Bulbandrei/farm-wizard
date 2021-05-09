@@ -6,10 +6,12 @@ public class UnitsWorker : MonoBehaviour
 
     public Unit unitPrefab;
 
-    public void SpawnRandomUnit(Vector2 p_position)
+    public Unit SpawnRandomUnit(Vector2 p_position)
     {
         Sprite __selectedSprite = sprites[Random.Range(0, sprites.Length)];
 
-        Instantiate(unitPrefab, p_position, Quaternion.identity).Initiate("", __selectedSprite);
+        var t = Instantiate(unitPrefab, p_position, Quaternion.identity);
+        t.Initiate(__selectedSprite);
+        return t;
     }
 }

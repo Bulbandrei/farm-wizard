@@ -27,3 +27,16 @@ public enum Particles
 {
 
 }
+
+public enum WordType
+{
+    NONE,
+    FOOD,
+    FEELINGS
+}
+
+public enum Language
+{
+    EN,
+    BR
+}
