@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -26,6 +24,10 @@ public class WordOnEnemy : MonoBehaviour
 
     public void SetTypedText(string t)
     {
-        TypedWordTxt.text = t;
+        string __typed = "<color=yellow>" + t + "</color>";
+        string __final = Word.Substring(t.Length, Word.Length - t.Length);
+
+        WordTxt.text = __typed + __final;
+        //TypedWordTxt.text = t;
     }
 }

@@ -99,7 +99,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -305,7 +305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.71, y: 0.75}
+  m_AnchoredPosition: {x: 0, y: 0.75}
   m_SizeDelta: {x: 900, y: 200}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!223 &2326786804676105398
@@ -501,6 +501,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 4787212435664227314}
   speed: 2
+  attackSpeed: 1
   targetParticles: {fileID: 1193572221562342992}
 --- !u!114 &-3075967413565273472
 MonoBehaviour:

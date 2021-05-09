@@ -25,7 +25,7 @@ public class Unit : MonoBehaviour
         {
             if(Time.time >= _timeToAttack)
             {
-                Player.Instance.TakeDamage();
+                Player.TakeDamage();
 
                 _timeToAttack = Time.time + attackSpeed;
             }

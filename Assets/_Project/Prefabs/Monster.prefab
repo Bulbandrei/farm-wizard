@@ -99,7 +99,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -5307,6 +5307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 8882035633970786898}
   speed: 2
+  attackSpeed: 1
   targetParticles: {fileID: 1798491833438598652}
 --- !u!114 &-7786453211354836455
 MonoBehaviour:

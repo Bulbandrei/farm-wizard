@@ -30,16 +30,6 @@ public class StageManager : MonoBehaviour
     public void Initiate()
     {
         WordTyper.OnTargetDestroyed += SetNewTarget;
-
-        _currentStage = stages[0];
-
-        _changeDayNightTime = Time.time + dayNightDuration;
-        _monsterSpawnTime = Time.time + _currentStage.MonsterSpawnDelay;
-        _animalSpawnTime = Time.time + _currentStage.AnimalSpawnDelay;
-        target = animalsWorker.SpawnRandomUnit(GetPointOutOfScreen()); // First spawn to set initial target
-        target.SetAsTarget();
-
-        _unitsOnScreen.Add(target);
     }
 
     private void OnDisable()
@@ -50,6 +40,11 @@ public class StageManager : MonoBehaviour
     private void OnDestroy()
     {
         WordTyper.OnTargetDestroyed -= SetNewTarget;
+    }
+
+    public void Initalize()
+    {
+        
     }
 
     public void Update()
@@ -81,6 +76,20 @@ public class StageManager : MonoBehaviour
                 _monsterSpawnTime = Time.time + _currentStage.MonsterSpawnDelay;
             }
         }
+    }
+
+    public void InitalizeStage()
+    {
+        _currentStage = stages[0];
+
+        _changeDayNightTime = Time.time + dayNightDuration;
+        _monsterSpawnTime = Time.time + _currentStage.MonsterSpawnDelay;
+        _animalSpawnTime = Time.time + _currentStage.AnimalSpawnDelay;
+
+        target = animalsWorker.SpawnRandomUnit(GetPointOutOfScreen()); // First spawn to set initial target
+        target.SetAsTarget();
+
+        _unitsOnScreen.Add(target);
     }
 
     public Vector2 GetPointOutOfScreen()

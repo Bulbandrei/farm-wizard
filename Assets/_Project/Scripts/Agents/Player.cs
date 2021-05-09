@@ -2,32 +2,49 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static event System.Action onLifeUpdated;
     public static event System.Action onLifeReachsZero;
 
-    public static Player Instance;
+    private static int _Life;
+    public static int Life
+    {
+        get { return _Life; }
+        set
+        {
+            if (value >= 0)
+            {
+                _Life = value;
 
-    public int life = GameConfig.PLAYER_MAX_HP;
+                if(_Life == 0) onLifeReachsZero?.Invoke();
+                else onLifeUpdated?.Invoke();
+            }
+        }
+    }
+
+    private WordTyper _wordTyper;
 
     public void Initiate()
     {
-        Instance = this;
+        _wordTyper = GetComponent<WordTyper>();
+
+        Life = GameConfig.PLAYER_MAX_HP;
     }
 
-    public void TakeDamage()
+    private void Update()
     {
-        if (life <= 0)
+        if (GameCEO.State != GameState.PLAY)
             return;
 
-        life -= 1;
+        _wordTyper.CheckTyping();
+    }
 
-        if(life <= 0)
-        {
-            onLifeReachsZero?.Invoke();
-        }
+    public static void TakeDamage()
+    {
+        Life -= 1;
     }
 
     public void ResetPlayer()
     {
-        life = GameConfig.PLAYER_MAX_HP;
+        Life = GameConfig.PLAYER_MAX_HP;
     }
 }

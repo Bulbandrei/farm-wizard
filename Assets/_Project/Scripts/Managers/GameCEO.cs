@@ -22,6 +22,7 @@ public class GameCEO : MonoBehaviour
         guiManager.onStartGameRequested += GuiManager_onStartGameRequested;
         guiManager.onIntroRequested += GuiManager_onIntroRequested;
 
+        playerManager.onPlayerLifeUpdated += PlayerManager_onPlayerLifeUpdated;
         playerManager.onPlayerLifeReachsZero += PlayerManager_onPlayerLifeReachsZero;
 
         guiManager.Initiate();
@@ -32,6 +33,7 @@ public class GameCEO : MonoBehaviour
     private void Start()
     {
         guiManager.Initialize();
+        stageManager.Initalize();
 
         guiManager.ShowDisplay(Displays.LANGUAGE);
     }
@@ -40,6 +42,8 @@ public class GameCEO : MonoBehaviour
 
     private void StartGame()
     {
+        stageManager.InitalizeStage();
+
         guiManager.ShowDisplay(Displays.HUD);
 
         ChangeGameState(GameState.PLAY);
@@ -91,6 +95,11 @@ public class GameCEO : MonoBehaviour
     //-----------------STAGE MANAGER----------------
 
     //-----------------PLAYER MANAGER----------------
+
+    private void PlayerManager_onPlayerLifeUpdated()
+    {
+        guiManager.UpdateDisplay(Displays.HUD, 0, Player.Life);
+    }
 
     private void PlayerManager_onPlayerLifeReachsZero()
     {

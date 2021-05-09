@@ -9,12 +9,7 @@ public class WordTyper : MonoBehaviour
 
     public static Action OnTargetDestroyed;
 
-    void Start()
-    {
-
-    }
-
-    void Update()
+    public void CheckTyping()
     {
         if (!string.IsNullOrEmpty(Input.inputString))
             TypeLetter(Input.inputString);
