@@ -161,15 +161,14 @@ public class StageManager : MonoBehaviour
     private void CalculateWpm()
     {
         wordsTyped.Add(targetWord.Word);
-        Debug.Log(Time.time);
-        wpmList.Add(Time.time, targetWord.Word);
+        wpmList.Add(Time.time, targetWord.Word.Replace(" ", ""));
         var toRemove = wpmList.Where(r => r.Key < Time.time - 60).Select(pair => pair.Key).ToList();
         foreach (var key in toRemove)
-        {
             wpmList.Remove(key);
-        }
 
-        avgWpm = wpmList.Count / 5;
+        string totalCharacters = "";
+        wpmList.Values.ToList().ForEach(w => totalCharacters += w);
+        avgWpm = totalCharacters.Count() / 5;
         if (avgWpm > maxWpm)
             maxWpm = avgWpm;
     }
