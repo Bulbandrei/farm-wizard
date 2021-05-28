@@ -6,9 +6,16 @@ public class StageManager : MonoBehaviour
 {
     public Stage[] stages;
 
-    public float dayNightDuration;
+    public static float dayNightDuration = 20;
     public static bool isDay = true;
     public static Unit target;
+    #region Stats
+    public static List<string> wordsTyped = new List<string>(); // All words typed
+    public static Dictionary<float, string> wpmList = new Dictionary<float, string>(); // Dictionary with timestamp and word typed, should contain only words typed in the last minute to calculate WPM
+    public static int maxWpm;
+    public static int avgWpm;
+    public static int accuracy;
+    #endregion
 
     public MonstersWorker monstersWorker;
     public AnimalsWorker animalsWorker;
@@ -20,6 +27,8 @@ public class StageManager : MonoBehaviour
             return target.GetComponent<WordOnEnemy>();
         }
     }
+
+    public event System.Action<float> onTimeUpdated;
 
     private float _changeDayNightTime;
     private float _monsterSpawnTime;
@@ -57,6 +66,10 @@ public class StageManager : MonoBehaviour
             isDay = !isDay;
             _changeDayNightTime = Time.time + dayNightDuration;
         }
+        else
+        {
+            onTimeUpdated?.Invoke(_changeDayNightTime - dayNightDuration);
+        }
 
         if (isDay)
         {
@@ -90,6 +103,10 @@ public class StageManager : MonoBehaviour
         target.SetAsTarget();
 
         _unitsOnScreen.Add(target);
+        wordsTyped = new List<string>();
+        wpmList = new Dictionary<float, string>();
+        maxWpm = 0;
+        avgWpm = 0;
     }
 
     public Vector2 GetPointOutOfScreen()
@@ -128,6 +145,7 @@ public class StageManager : MonoBehaviour
 
     public void SetNewTarget()
     {
+        CalculateWpm();
         _unitsOnScreen.Remove(target);
         // TODO Avisar target pra ele se matar e spawnar efeitinhos
         Destroy(target.gameObject);
@@ -138,5 +156,21 @@ public class StageManager : MonoBehaviour
     public Unit getClosestEnemyToPlayer()
     {
         return _unitsOnScreen.OrderBy(u => (u.transform.localPosition - Vector3.zero).sqrMagnitude).First();
+    }
+
+    private void CalculateWpm()
+    {
+        wordsTyped.Add(targetWord.Word);
+        Debug.Log(Time.time);
+        wpmList.Add(Time.time, targetWord.Word);
+        var toRemove = wpmList.Where(r => r.Key < Time.time - 60).Select(pair => pair.Key).ToList();
+        foreach (var key in toRemove)
+        {
+            wpmList.Remove(key);
+        }
+
+        avgWpm = wpmList.Count / 5;
+        if (avgWpm > maxWpm)
+            maxWpm = avgWpm;
     }
 }

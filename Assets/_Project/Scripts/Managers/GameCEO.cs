@@ -24,6 +24,7 @@ public class GameCEO : MonoBehaviour
 
         playerManager.onPlayerLifeUpdated += PlayerManager_onPlayerLifeUpdated;
         playerManager.onPlayerLifeReachsZero += PlayerManager_onPlayerLifeReachsZero;
+        stageManager.onTimeUpdated += StateManager_onGameTimeUpdated;
 
         guiManager.Initiate();
         playerManager.Initate();
@@ -93,6 +94,11 @@ public class GameCEO : MonoBehaviour
     }
 
     //-----------------STAGE MANAGER----------------
+
+    private void StateManager_onGameTimeUpdated(float t)
+    {
+        guiManager.UpdateDisplay(Displays.HUD, 1, t);
+    }
 
     //-----------------PLAYER MANAGER----------------
 

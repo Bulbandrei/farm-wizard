@@ -37,4 +37,9 @@
 
         p_renderer.color = new UnityEngine.Color(__color.r, __color.g, __color.b, p_alpha);
     }
+
+    public static float CalculateValueBasedOnRef(float iniVal, float maxVal, float iniRef, float maxRef, float curRef)
+    {
+        return (((curRef - iniRef) / (maxRef - iniRef)) * (maxVal - iniVal)) + iniVal;
+    }
 }
